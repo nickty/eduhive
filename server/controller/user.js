@@ -1,27 +1,18 @@
 /** @format */
 
-const mongoose = require('mongoose');
+const User = require('../model/user');
 
-var UserSchema = new mongoose.Schema(
-  {
-    username: {
-      type: String,
-      unique: true,
-    },
-    followers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
-    following: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
-  },
-  { timestamps: true }
-);
+exports.createUser = async (req, res) => {
+  // console.log(req.body);
+  const { username } = req.body;
+  if (!username) return res.status(400).send('Name is required');
+  let userExist = await User.findOne({ username }).exec();
+  if (userExist) return res.status(400).send('Username is taken');
 
-mongoose.model('User', UserSchema);
+  //register
+  const user = await new User({
+    username,
+  }).save();
+
+  return res.json({ ok: true });
+};
