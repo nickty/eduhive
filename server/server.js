@@ -2,9 +2,8 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const { createPost } = require('./controller/post');
 const app = express();
-
-// const { MongoClient } = require('mongodb');
 const { createUser } = require('./controller/user');
 
 mongoose
@@ -23,36 +22,13 @@ mongoose
     console.log('not connected');
   });
 
-// mongoose.connect(
-//   'mongodb+srv://nickty:OSX7XdzElqg737CS@cluster0.22anv.mongodb.net/?retryWrites=true&w=majority',
-//   { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
-//   () => {
-//     console.log('Connected to MongoDB');
-//   }
-// );
-// const client = new MongoClient(
-//   'mongodb+srv://nickty:OSX7XdzElqg737CS@cluster0.22anv.mongodb.net/?retryWrites=true&w=majority'
-// );
-
-// (async () => {
-//   try {
-//     await client.connect();
-//     const dbRole = await client.db().command({ hello: 1 });
-//     console.log(
-//       `Role of database - Host: ${dbRole.me}  Is primary: ${dbRole.isWritablePrimary}`
-//     );
-//     await client.close();
-//   } catch (e) {
-//     console.log('Error: ', e.message);
-//   }
-// })();
-
 app.use(express.json());
 
 app.get('/', function (req, res) {
   res.status(200).send('Hello World!');
 });
 app.post('/user', createUser);
+app.post('/post', createPost);
 
 const port = process.env.PORT || 3000;
 

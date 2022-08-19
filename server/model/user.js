@@ -14,10 +14,10 @@ var UserSchema = new mongoose.Schema(
     //     ref: 'User',
     //   },
     // ],
-    following: [
+    followers: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Post',
+        ref: 'User',
         default: '',
       },
     ],

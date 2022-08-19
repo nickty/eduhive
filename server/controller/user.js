@@ -14,5 +14,5 @@ exports.createUser = async (req, res) => {
     username,
   }).save();
 
-  return res.json({ ok: true });
+  return res.json({ ok: true, user });
 };
