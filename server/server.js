@@ -4,19 +4,23 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri =
-  'mongodb+srv://nickty:Nick124578@cluster0.22anv.mongodb.net/?retryWrites=true&w=majority';
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1,
-});
-// client.connect((err) => {
-//   const collection = client.db('test').collection('devices');
-//   // perform actions on the collection object
-//   client.close();
-// });
+const { MongoClient } = require('mongodb');
+const client = new MongoClient(
+  'mongodb+srv://nickty:OSX7XdzElqg737CS@cluster0.22anv.mongodb.net/?retryWrites=true&w=majority'
+);
+
+(async () => {
+  try {
+    await client.connect();
+    const dbRole = await client.db().command({ hello: 1 });
+    console.log(
+      `Role of database - Host: ${dbRole.me}  Is primary: ${dbRole.isWritablePrimary}`
+    );
+    await client.close();
+  } catch (e) {
+    console.log('Error: ', e.message);
+  }
+})();
 
 app.get('/', function (req, res) {
   res.status(200).send('Hello World!');
